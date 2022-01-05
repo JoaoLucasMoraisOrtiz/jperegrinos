@@ -2,20 +2,33 @@
 
 namespace App\Model\API;
 
-use RouterWorks;
+require __DIR__ . "/controller/index.php";
 
-require_once "src/PHP/routes/index.php";
+use App\Model\API\controller\Posts\ActionsPosts;
+use App\Model\API\controller\Users\ActionsUsers as UsersActionsUsers;
 
-class DbManeger{
+class DbManeger
+{
 
     /**
-     * Método responsável por instanciar RouterWorks
+     * Método responsável por instanciar a classe de controller dos posts
      * @return instance
      */
-    public static function init(){
-        $obRouter = new RouterWorks;
+    public static function initPost()
+    {
+        $obRouter = new ActionsPosts;
 
         return $obRouter;
     }
-    
+
+    /**
+     * Método responsável por instanciar a classe de controller dos users
+     * @return instance
+     */
+    public static function initUsers()
+    {
+        $obRouter = new UsersActionsUsers;
+
+        return $obRouter;
+    }
 }
