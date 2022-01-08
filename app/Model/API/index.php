@@ -1,8 +1,7 @@
 <?php
-namespace App\Model\API;
+
 require_once __DIR__ . "/controller/ActionsPost.php";
 require_once __DIR__ . "/controller/ActionsUsers.php";
-use \App\Model\API\controller;
 
 //                          -=-=-=-=-=-=-=- POSTS -=-=-=-=-=-=-=-=-
 
@@ -33,10 +32,11 @@ $content = $api->update($postToEdit); */
 /* $api->delete(4); */
 
 //                            -=-=-=-=-=-=- USERS -=-=-=-=-=-=-
-$api = new controller\ActionsUsers;
+/* $api = new ActionsUsers; */
 
 //Trazendo os usuários do banco de dados -->Funcionando
-$content = $api->get();
+/* $content = $api->get(); */
+
 
 //criando um usuário no banco de dados
 /* $param = [
@@ -59,11 +59,6 @@ $post = $api->post($param); */
 ];
 
 $post = $api->update($param); */
-
-echo "<pre>";
-print_r($post);
-print_r($api->get());
-
 
 //deletando um usuário na DB -->Funcionando
 

@@ -4,9 +4,11 @@
 
 namespace App\Model\Entity;
 
-require_once __DIR__ . '/../API/app.php';
+use ActionsPosts;
+use ActionsUsers;
 
-use App\Model\API\DbManeger;
+require_once __DIR__ . '/../API/controller/ActionsPost.php';
+require_once __DIR__ . '/../API/controller/ActionsUsers.php';
 
 class Organization
 {
@@ -31,12 +33,12 @@ class Organization
 
         if (strtolower($table) == 'posts') {
 
-            $this->api = DbManeger::initPost();
+            $this->api = new ActionsPosts;
         }
 
         if (strtolower($table) == 'users') {
 
-            $this->api = DbManeger::initUsers();
+            $this->api = new ActionsUsers;
         }
     }
 
@@ -45,15 +47,14 @@ class Organization
      * @param string $method
      * @param string $table
      * @param array $param
-     * @return array quando $method == GET
+     * @return array/instance quando $method == GET/quando $method == INSTANCE
      */
-    private function db_methods($method, $table, $params = 0)
+    public function db_methods($method, $table, $params = 0)
     {
 
-        if (strtoupper($method) == 'GET') {
+        if (strtoupper($method) == "GET") {
 
             $this->init($table);
-
             return $this->api->get($params);
         }
 
@@ -76,6 +77,13 @@ class Organization
             $this->init($table);
 
             $this->api->delete($params);
+        }
+
+        if (strtoupper($method) == "INSTANCE") {
+
+            $this->init($table);
+
+            return $this->api;
         }
     }
 

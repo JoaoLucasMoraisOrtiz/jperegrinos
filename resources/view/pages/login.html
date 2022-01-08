@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Google Login</title>
+
+    <!-- importa do link do google uma biblioteca nescessária para o loguin -->
+    <script src="https://accounts.google.com/gsi/client" async defer></script>
+
+    <!-- importa a JWD para decodificarmos a resposta do google -->
+    <script src="https://unpkg.com/jwt-decode/build/jwt-decode.js"></script>
+
+    <!-- biblioteca do jquery -->
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+
+    <script>
+
+        /* quando a pagina for iniciada */
+        window.onload = function () {
+
+            /* crias as configurações do login */
+            google.accounts.id.initialize({
+                client_id: "922634279824-ncm4mokct42505bmepbgut1tgherhdd2.apps.googleusercontent.com",
+                callback: handleCredentialResponse
+            });
+
+            /* cria o botão */
+            google.accounts.id.renderButton(
+                document.getElementById("buttonDiv"),
+                { theme: "outline", size: "large" }  // customization attributes
+            );
+            google.accounts.id.prompt(); // also display the One Tap dialog
+        }
+
+        /* trabalha com as respostas do google para nós */
+        function handleCredentialResponse(response) {
+            const data = jwt_decode(response.credential)
+            console.log(data)
+
+            var sub = data.sub
+
+            $.ajax({
+                type: "POST",
+                url: 'http://localhost:8000/validation',
+                data: data,
+                success: function (response) {
+                    window.location.replace(response)
+                },
+                error: function (response) {
+                    document.getElementById('msg').innerHTML = 'error!!'
+                }
+            });
+        }
+
+
+    </script>
+
+</head>
+
+<body>
+    <h1>Fazendo loguin com o google</h1>
+    <div id="buttonDiv"></div>
+
+    <p id='msg' hidden></p>
+
+</body>
+
+</html>

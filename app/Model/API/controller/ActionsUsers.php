@@ -1,17 +1,16 @@
 <?php
 
-namespace App\Model\API\controller;
 require_once __DIR__ . "/../helpers/dbConection.php";
-use App\Model\API\helpers\Database;
+
 use FFI\Exception;
 use PDO;
 
 
-/* putenv("DB_NAME=jperegrinos");
+putenv("DB_NAME=jperegrinos");
 putenv("DB_HOST=localhost:3306");
 putenv("DB_USER=joao");
 putenv("DB_PASS=");
-putenv("DB_POSTS_TABLE=posts"); */
+putenv("DB_POSTS_TABLE=posts");
 
 
 class ActionsUsers
@@ -135,7 +134,8 @@ class ActionsUsers
             $obUser = $this->get($id);
             $lastPayment = $obUser['date'];
             $this->date = $obUser['date'];
-            
+
+            //se o usuário pagou a mais de um mês retorna verdadeiro, se não, retorna falso
             if (strtotime($lastPayment) > strtotime('-1 month')) {
                 return 'TRUE';
             } else {
@@ -172,7 +172,7 @@ class ActionsUsers
             $this->getTableName();
 
             //tenta se conectar com o banco de dados
-            $con = Database::connection($this->link, $this->dbName, $this->usr, $this->pass);
+            $con = connection($this->link, $this->dbName, $this->usr, $this->pass);
             $con->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
         } catch (Exception $e) {
 
@@ -198,18 +198,20 @@ class ActionsUsers
                 //em caso de erro 
                 echo `window.allert('Erro ao conectar com o banco de dados! <br> {$e->getMessage()}')`;
             }
-        } else if ($id > 0) {
+        } else if ($id != 0) {
+
+            $encriptedId = $this->getId($id);
 
             //prepara uma string para ser executada posteriormente com o prepare;
             //:_mark - é uma forma de se proteger, para ninguem colocar um drop database e acabar com o banco
             $statement = $con->prepare("SELECT * FROM users WHERE id = :id");
-            $statement->bindParam(":id", $this->getId($id), PDO::PARAM_INT);
+            $statement->bindValue(":id", $encriptedId, PDO::PARAM_STR);
             try {
                 //tenta executar a string que estava sendo preparada, ou seja, envia para o DB os dados.
                 $statement->execute();
 
                 //retorna o index Zero pois se não retornará uma array com nossa array dentro
-                return $statement->fetchAll(PDO::FETCH_ASSOC)[0];
+                return $statement->fetchAll(PDO::FETCH_ASSOC)[0] ?? 0;
             } catch (Exception $e) {
                 //em caso de erro 
                 echo `window.allert('Erro ao conectar com o banco de dados! <br> {$e->getMessage()}')`;
@@ -234,7 +236,7 @@ class ActionsUsers
             $this->getTableName();
 
             //tenta se conectar com o banco de dados
-            $con = Database::connection($this->link, $this->dbName, $this->usr, $this->pass);
+            $con = connection($this->link, $this->dbName, $this->usr, $this->pass);
             $con->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
         } catch (Exception $e) {
 
@@ -296,7 +298,7 @@ class ActionsUsers
             $this->getTableName();
 
             //tenta se conectar com o banco de dados
-            $con = Database::connection($this->link, $this->dbName, $this->usr, $this->pass);
+            $con = connection($this->link, $this->dbName, $this->usr, $this->pass);
             $con->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
         } catch (Exception $e) {
 
@@ -357,7 +359,7 @@ class ActionsUsers
             $this->getTableName();
 
             //tenta se conectar com o banco de dados
-            $con = Database::connection($this->link, $this->dbName, $this->usr, $this->pass);
+            $con = connection($this->link, $this->dbName, $this->usr, $this->pass);
             $con->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
         } catch (Exception $e) {
             //em caso de erro exibe a window.allert()

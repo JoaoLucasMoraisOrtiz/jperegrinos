@@ -275,10 +275,10 @@ class Router
             $reflection = new ReflectionFunction($route['controller']);
 
             foreach ($reflection->getParameters() as $parameter) {
-                
+
                 //pega o nome da variável da nossa URL
                 $name = $parameter->getName();
-
+                
                 //adiciona em args o valor da nossa variável que é pega na chave com o nome dela em $route['variables']
                 $args[$name] = $route['variables'][$name] ?? '';
             }

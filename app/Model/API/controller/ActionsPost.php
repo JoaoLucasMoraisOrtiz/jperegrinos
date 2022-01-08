@@ -1,9 +1,7 @@
 <?php
 
-/* require __DIR__ . "/../helpers/dbConection.php"; */
+require_once __DIR__ . "/../helpers/dbConection.php";
 
-namespace App\Model\API\controller;
-use App\Model\API\helpers\Database;
 use FFI\Exception;
 use PDO;
 
@@ -142,7 +140,7 @@ class ActionsPosts
             $this->getTableName();
 
             //tenta se conectar com o banco de dados
-            $con = Database::connection($this->link, $this->dbName, $this->usr, $this->pass);
+            $con = connection($this->link, $this->dbName, $this->usr, $this->pass);
             $con->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
         } catch (Exception $e) {
 
@@ -168,7 +166,7 @@ class ActionsPosts
                 //em caso de erro 
                 echo `window.allert('Erro ao conectar com o banco de dados! <br> {$e->getMessage()}')`;
             }
-        } else if ($id > 0) {
+        } else if ($id != 0) {
 
             //prepara uma string para ser executada posteriormente com o prepare;
             //:_mark - é uma forma de se proteger, para ninguem colocar um drop database e acabar com o banco
@@ -204,7 +202,7 @@ class ActionsPosts
             $this->getTableName();
 
             //tenta se conectar com o banco de dados
-            $con = Database::connection($this->link, $this->dbName, $this->usr, $this->pass);
+            $con = connection($this->link, $this->dbName, $this->usr, $this->pass);
             $con->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
         } catch (Exception $e) {
 
@@ -259,7 +257,7 @@ class ActionsPosts
             $this->getTableName();
 
             //tenta se conectar com o banco de dados
-            $con = Database::connection($this->link, $this->dbName, $this->usr, $this->pass);
+            $con = connection($this->link, $this->dbName, $this->usr, $this->pass);
             $con->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
         } catch (Exception $e) {
 
@@ -314,7 +312,7 @@ class ActionsPosts
             $this->getTableName();
 
             //tenta se conectar com o banco de dados
-            $con = Database::connection($this->link, $this->dbName, $this->usr, $this->pass);
+            $con = connection($this->link, $this->dbName, $this->usr, $this->pass);
             $con->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
         } catch (Exception $e) {
 

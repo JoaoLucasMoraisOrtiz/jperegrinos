@@ -4,7 +4,8 @@
 
 namespace App\Utils;
 
-class View{
+class View
+{
 
     /**
      * Variáveis padrões da View
@@ -16,7 +17,8 @@ class View{
      * Método responsável por definir os dados iniciais da classe;
      * @param array
      */
-    public static function init($vars = []){
+    public static function init($vars = [])
+    {
         self::$vars = $vars;
     }
 
@@ -28,7 +30,8 @@ class View{
      * @return string
      */
 
-    private static function getContentView($view){
+    private static function getContentView($view)
+    {
 
         /*  
             O parâmetro $view receberá o prefixo pages/ e o nome de uma página - home, about, etc. 
@@ -37,16 +40,16 @@ class View{
         $file = __DIR__ . "/../../resources/view/" . $view . ".html";
 
         //se o arquivo requerido existir
-        if(file_exists($file)){
+        if (file_exists($file)) {
 
+            
             //ele é retornadp
             return file_get_contents($file);
-        }else{
+        } else {
 
             //caso não exista, se retorna vazio
             return "";
         }
-        
     }
 
     /* render($arg) é uma função pública e estática, ou seja, não haverá: $var = new render($arg) */
@@ -57,7 +60,8 @@ class View{
      * @param array $vars (stryng/numeric)
      * @return string
      */
-    public static function render($view, $vars = []){
+    public static function render($view, $vars = [])
+    {
 
         /* $contentView guarda o conteúdo da view, ele recebe o getContenView($arg) da classe atual - View */
         $contentView = self::getContentView($view);
@@ -81,16 +85,14 @@ class View{
             [1] => {{nome_var2}}
             etc...
         */
-        $keys = array_map(function($item){
+        $keys = array_map(function ($item) {
             return '{{' . $item . '}}';
         }, $keys);
-        
-        
+
         /* 
             Retornamos a página ($contentView) alterando nela onde ouver as chaves ($keys),
             com os valores das variáveis ($vars);
         */
         return str_replace($keys, array_values($vars), $contentView);
     }
-
 }
