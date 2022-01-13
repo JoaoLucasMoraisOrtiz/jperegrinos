@@ -3,7 +3,7 @@
 namespace App\Controller\Users;
 
 use \App\Model\Entity\Organization;
-use \App\Controller\Pages\Home;
+
 
 class Validation
 {
@@ -81,10 +81,9 @@ class Validation
      * @param array
      * @return bool
      */
-    private function verifyPayment($id)
+    public static function verifyPayment($id)
     {
 
-        $id = '123';
         $obOrganization = new Organization;
         $user = $obOrganization->db_methods('INSTANCE', 'users');
 
@@ -106,19 +105,26 @@ class Validation
     {
         $user = $this->verifyUser($googleResponse);
 
-
         if (gettype($user) == 'array') {
 
-            $payment = $this->verifyPayment($user[1]['id']);
+            $payment = $this->verifyPayment($googleResponse['sub']);
 
             if ($payment) {
+
+                $_SESSION['user'] = $googleResponse['sub'];
+                $_SESSION['name'] = $googleResponse['name'];
+
                 echo getenv('URL') . "/home";
                 exit();
             }
-        }else{
-
+        } else {
+            
+            //tem que arrumar uma forma de passar o sub e o name para o /store.
+            $_SESSION['user'] = $googleResponse['sub'];
+            $_SESSION['name'] = $googleResponse['name'];
+            
             echo getenv('URL') . '/store';
-            exit;
+            exit();
         }
     }
 }

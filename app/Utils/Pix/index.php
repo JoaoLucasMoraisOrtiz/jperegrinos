@@ -1,8 +1,8 @@
 <?php
 
-require_once "vendor/autoload.php";
+require_once __DIR__ . "/../../../vendor/autoload.php";
 
-use \App\Pix\Payload;
+use \App\Utils\Pix\Payload;
 use Mpdf\QrCode\QrCode;
 use Mpdf\QrCode\Output;
 

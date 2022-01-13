@@ -23,7 +23,7 @@
 
             /* crias as configurações do login */
             google.accounts.id.initialize({
-                client_id: "922634279824-ncm4mokct42505bmepbgut1tgherhdd2.apps.googleusercontent.com",
+                client_id: "298539166794-2i3tk4v6e604gsekr3mldot66hvbrlqb.apps.googleusercontent.com",
                 callback: handleCredentialResponse
             });
 
@@ -47,6 +47,7 @@
                 url: 'http://localhost:8000/validation',
                 data: data,
                 success: function (response) {
+                    /* document.getElementById('msg').innerHTML = response; */
                     window.location.replace(response)
                 },
                 error: function (response) {
@@ -64,7 +65,7 @@
     <h1>Fazendo loguin com o google</h1>
     <div id="buttonDiv"></div>
 
-    <p id='msg' hidden></p>
+    <p id='msg'></p>
 
 </body>
 

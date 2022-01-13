@@ -137,9 +137,9 @@ class ActionsUsers
 
             //se o usuário pagou a mais de um mês retorna verdadeiro, se não, retorna falso
             if (strtotime($lastPayment) > strtotime('-1 month')) {
-                return 'TRUE';
+                return TRUE;
             } else {
-                return 'FALSE';
+                return FALSE;
             }
         }
 

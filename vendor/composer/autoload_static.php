@@ -7,6 +7,10 @@ namespace Composer\Autoload;
 class ComposerStaticInit9f9faf908f81b593c5f3e925d57e733e
 {
     public static $prefixLengthsPsr4 = array (
+        't' => 
+        array (
+            'thiagoalessio\\TesseractOCR\\' => 27,
+        ),
         'M' => 
         array (
             'Mpdf\\QrCode\\' => 12,
@@ -18,6 +22,10 @@ class ComposerStaticInit9f9faf908f81b593c5f3e925d57e733e
     );
 
     public static $prefixDirsPsr4 = array (
+        'thiagoalessio\\TesseractOCR\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/thiagoalessio/tesseract_ocr/src',
+        ),
         'Mpdf\\QrCode\\' => 
         array (
             0 => __DIR__ . '/..' . '/mpdf/qrcode/src',

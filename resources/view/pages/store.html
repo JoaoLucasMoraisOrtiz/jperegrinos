@@ -1,17 +1,111 @@
-<!DOCTYPE html>
-<html lang="pt-br">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>{{title}}</title>
-</head>
-<body>
-    <h1>{{title}}</h1>
+<div class="container">
+    <div class="row">
+        <div class="col-12" style="text-align: center; display: flex; justify-content: space-between;">
+            <a href="{{URL}}"><button class="btn btn-primary">HOME</button></a>
+            <a href="{{URL}}/store"><button class="btn btn-primary">STORE</button></a>
+            <a href="{{URL}}/destroy"><button class="btn btn-primary">DESTRUIR SESSÃO</button></a>
+        </div>
+    </div>
+    <hr>
+    <div class="row">
+        <div class="col-8">
+            <h5>Os Jovens Peregrinos precisam de Você!!</h5>
+            <p>
+                Lorem, ipsum dolor sit amet consectetur adipisicing elit.
+                Consequuntur, doloremque similique.
+                Ex modi adipisci optio assumenda blanditiis, aut quas error facere.
+                Facere laboriosam corporis aspernatur distinctio, quia magni ipsum rem.
+                Lorem, ipsum dolor sit amet consectetur adipisicing elit.
+                Consequuntur, doloremque similique.
+                Ex modi adipisci optio assumenda blanditiis, aut quas error facere.
+                Facere laboriosam corporis aspernatur distinctio, quia magni ipsum rem.
+                Lorem, ipsum dolor sit amet consectetur adipisicing elit.
+                Consequuntur, doloremque similique.
+                Ex modi adipisci optio assumenda blanditiis, aut quas error facere.
+                Facere laboriosam corporis aspernatur distinctio, quia magni ipsum rem.
+                Lorem, ipsum dolor sit amet consectetur adipisicing elit.
+                Consequuntur, doloremque similique.
+                Ex modi adipisci optio assumenda blanditiis, aut quas error facere.
+                Facere laboriosam corporis aspernatur distinctio, quia magni ipsum rem.
+                Lorem, ipsum dolor sit amet consectetur adipisicing elit.
+                Consequuntur, doloremque similique.
+                Ex modi adipisci optio assumenda blanditiis, aut quas error facere.
+                Facere laboriosam corporis aspernatur distinctio, quia magni ipsum rem.
+                Lorem, ipsum dolor sit amet consectetur adipisicing elit.
+                Consequuntur, doloremque similique.
+                Ex modi adipisci optio assumenda blanditiis, aut quas error facere.
+                Facere laboriosam corporis aspernatur distinctio, quia magni ipsum rem.
+                Lorem, ipsum dolor sit amet consectetur adipisicing elit.
+                Consequuntur, doloremque similique.
+                Ex modi adipisci optio assumenda blanditiis, aut quas error facere.
+                Facere laboriosam corporis aspernatur distinctio, quia magni ipsum rem.
+                Lorem, ipsum dolor sit amet consectetur adipisicing elit.
+                Consequuntur, doloremque similique.
+                Ex modi adipisci optio assumenda blanditiis, aut quas error facere.
+                Facere laboriosam corporis aspernatur distinctio, quia magni ipsum rem.
+                Lorem, ipsum dolor sit amet consectetur adipisicing elit.
+                Consequuntur, doloremque similique.
+                Ex modi adipisci optio assumenda blanditiis, aut quas error facere.
+                Facere laboriosam corporis aspernatur distinctio, quia magni ipsum rem.
+                Lorem, ipsum dolor sit amet consectetur adipisicing elit.
+                Consequuntur, doloremque similique.
+                Ex modi adipisci optio assumenda blanditiis, aut quas error facere.
+                Facere laboriosam corporis aspernatur distinctio, quia magni ipsum rem.
+                Lorem, ipsum dolor sit amet consectetur adipisicing elit.
+                Consequuntur, doloremque similique.
+                Ex modi adipisci optio assumenda blanditiis, aut quas error facere.
+                Facere laboriosam corporis aspernatur distinctio, quia magni ipsum rem.
+                Lorem, ipsum dolor sit amet consectetur adipisicing elit.
+                Consequuntur, doloremque similique.
+                Ex modi adipisci optio assumenda blanditiis, aut quas error facere.
+                Facere laboriosam corporis aspernatur distinctio, quia magni ipsum rem.
+                Lorem, ipsum dolor sit amet consectetur adipisicing elit.
+                Consequuntur, doloremque similique.
+                Ex modi adipisci optio assumenda blanditiis, aut quas error facere.
+                Facere laboriosam corporis aspernatur distinctio, quia magni ipsum rem.
+            </p>
+        </div>
+        <div class="col-4 bg-light">
+            <div class="card" style="position: fixed;">
+                <div class="card-title" style="width: 26vw; text-align: center; padding-top: 2vh;">
+                    <h5>Apoie-nos</h5>
+                    <hr>
+                </div>
+                <div class="card-body">
+                    <form action="{{URL}}/store" method='POST'>
+                        <h6>Valor:</h6>
+                        <select id="value" class="form-select" onclick="getValue()">
+                            <option value="25">R$25.00</option>
+                            <option value="50">R$50.00</option>
+                            <option value="75">R$75.00</option>
+                            <option value="100">R$100.00</option>
+                            <option value="donation">Ajude com mais!</option>
+                        </select>
+                        <br>
+                        <p id='textArea' style="visibility: hidden;">digite o valor: <input type="text" name="valueDonation" id="valueDonation"></p>
+                        <div style='text-align: center;'>
+                            <input type="submit" value="Apadrinhar" class='btn btn-success'>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
 
-    <a href="{{URL}}"><button class="btn btn-primary">HOME</button></a>
-    <a href="{{URL}}/store"><button class="btn btn-primary">STORE</button></a>
+</div>
 
-    <p>{{description}}</p>
-</body>
-</html>
+<script>
+
+    function getValue() {
+        selection = document.getElementById('value')
+        console.log(selection.value)
+        if (selection.value == 'donation') {
+            textArea = document.getElementById('textArea')
+            textArea.style.visibility='visible'
+        } else {
+            textArea = document.getElementById('textArea')
+            textArea.style.visibility='hidden'
+        }
+    }
+
+</script>
