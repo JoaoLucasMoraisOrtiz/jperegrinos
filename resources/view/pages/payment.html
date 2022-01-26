@@ -1,0 +1,61 @@
+<div class="container">
+    <div class="row">
+        <div class="col-12" style="text-align: center; display: flex; justify-content: space-between;">
+            <a href="{{URL}}"><button class="btn btn-primary">HOME</button></a>
+            <a href="{{URL}}/store"><button class="btn btn-primary">STORE</button></a>
+            <a href="{{URL}}/destroy"><button class="btn btn-primary">DESTRUIR SESSÃO</button></a>
+        </div>
+    </div>
+    <hr>
+    <div class="row">
+        <h4>Como fazer o apadrinhamento:</h4>
+        <ul>
+            <ul>
+                <h6>No Computador:</h6>
+                <ul>
+                    <li>Clique no botão abaixo "Ver o QrCode de pagamento";</li>
+                    <li>Abra seu App do Banco, e abra a opção pagar com Pix por QrCode;</li>
+                    <li>Escaneie o QrCode;</li>
+                    <li>Anote o código da descrição, e escreva-o na caixa que aparece abaixo do QrCode;</li>
+                    <li>Pronto! Os Jovens Peregrinos te agradecem!!</li>
+                </ul>
+                <br>
+                <h6>No Celular:</h6>
+                <ul>
+                    <li>Clique no botão abaixo "Ver o QrCode de pagamento";</li>
+                    <li>Tire um print da tela <small>(botão de ligar e diminuir o volume ao mesmo tempo)</small></li>
+                    <li>Abra seu App do Banco, e abra a opção pagar com Pix por QrCode;</li>
+                    <li>Selecione a opção "abrir da galeria", ou equivalente;</li>
+                    <li>Anote o código da descrição, e escreva-o na caixa que aparece abaixo do QrCode;</li>
+                    <li>Pronto! Os Jovens Peregrinos te agradecem!!</li>
+                </ul>
+            </ul>
+        </ul>
+        <!-- Button trigger modal -->
+        <button type="button" class="btn btn-success" data-toggle="modal" data-target="#exampleModal">
+            Ver o QrCode de Pagamento
+        </button>
+    </div>
+
+    <!-- Modal -->
+    <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">QrCode</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <h5>Valor: {{valor}}</h5>
+                    <img src="data:image/png;base64,00020126430014br.gov.bcb.pix011244933331898%0A0205teste520400005303986540525.005802BR5912jperegrinos%0A6010MOGIGUACU%0A62180514apadrinhamento6304F8C0" alt="">
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

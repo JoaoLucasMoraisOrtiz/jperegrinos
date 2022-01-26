@@ -23,9 +23,6 @@ class Environment{
             throw new Exception(500, 'Não foi possível obter o arquivo com as variáveis de ambiente');     
         }
 
-        //caso o arquivo exista, ele retira todos os espaços que existem nele
-        $file = str_replace(' ', '', $file);
-
         //inicializa a variável $vars que é um array
         $vars = [];
 
@@ -38,7 +35,7 @@ class Environment{
 
         //para cada ítem em $vars, executa um putenv($item) com ele
         foreach($vars as $item){
-            putenv($item);
+            putenv(rtrim($item));
         }
 
     }

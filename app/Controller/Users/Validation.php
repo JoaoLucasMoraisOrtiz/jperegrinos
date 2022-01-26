@@ -105,6 +105,7 @@ class Validation
     {
         $user = $this->verifyUser($googleResponse);
 
+
         if (gettype($user) == 'array') {
 
             $payment = $this->verifyPayment($googleResponse['sub']);
@@ -113,16 +114,17 @@ class Validation
 
                 $_SESSION['user'] = $googleResponse['sub'];
                 $_SESSION['name'] = $googleResponse['name'];
+                $_SESSION['email'] = $googleResponse['email'];
 
                 echo getenv('URL') . "/home";
                 exit();
             }
         } else {
-            
-            //tem que arrumar uma forma de passar o sub e o name para o /store.
+
             $_SESSION['user'] = $googleResponse['sub'];
             $_SESSION['name'] = $googleResponse['name'];
-            
+            $_SESSION['email'] = $googleResponse['email'];
+
             echo getenv('URL') . '/store';
             exit();
         }

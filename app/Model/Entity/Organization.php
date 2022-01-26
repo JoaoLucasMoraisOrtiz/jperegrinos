@@ -86,13 +86,4 @@ class Organization
             return $this->api;
         }
     }
-
-    /*
-     Funções da classe em si 
-    */
-    public function getPosts()
-    {
-
-        $content = $this->db_methods('GET', 'posts');
-    }
 }

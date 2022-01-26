@@ -7,7 +7,7 @@
         </div>
     </div>
     <hr>
-    <div class="row">
+    <div class="row" id="text">
         <div class="col-8">
             <h5>Os Jovens Peregrinos precisam de Você!!</h5>
             <p>
@@ -72,22 +72,77 @@
                     <hr>
                 </div>
                 <div class="card-body">
-                    <form action="{{URL}}/store" method='POST'>
-                        <h6>Valor:</h6>
-                        <select id="value" class="form-select" onclick="getValue()">
-                            <option value="25">R$25.00</option>
-                            <option value="50">R$50.00</option>
-                            <option value="75">R$75.00</option>
-                            <option value="100">R$100.00</option>
-                            <option value="donation">Ajude com mais!</option>
-                        </select>
-                        <br>
-                        <p id='textArea' style="visibility: hidden;">digite o valor: <input type="text" name="valueDonation" id="valueDonation"></p>
-                        <div style='text-align: center;'>
-                            <input type="submit" value="Apadrinhar" class='btn btn-success'>
-                        </div>
-                    </form>
+                    <h6>Valor:</h6>
+                    <select id="value" name="value" class="form-select" onclick="getValue()">
+                        <option value="25">R$25.00</option>
+                        <option value="50">R$50.00</option>
+                        <option value="75">R$75.00</option>
+                        <option value="100">R$100.00</option>
+                        <option value="donation">Ajude com mais!</option>
+                    </select>
+                    <br>
+                    <p id='textArea' style="visibility: hidden;">digite o valor: <input type="text" name="valueDonation"
+                            onKeyUp="mascaraMoeda(this, event)" id="valueDonation" placeholder="125.00"></p>
+                    <div style='text-align: center;'>
+                        <button class='btn btn-success' onclick="showQrCode()">Apadrinhar</button>
+                    </div>
                 </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row" id="payment" style="display:none">
+        <div class="col-12">
+            <h4>Como fazer o apadrinhamento:</h4>
+            <ul>
+                <ul>
+                    <h6>No Computador:</h6>
+                    <ul>
+                        <li>Clique no botão abaixo "Ver o QrCode de pagamento";</li>
+                        <li>Abra seu App do Banco, e abra a opção pagar com Pix por QrCode;</li>
+                        <li>Escaneie o QrCode;</li>
+                        <li>Anote o código da descrição, e escreva-o na caixa que aparece abaixo do QrCode;</li>
+                        <li>Pronto! Os Jovens Peregrinos te agradecem!!</li>
+                    </ul>
+                    <br>
+                    <h6>No Celular:</h6>
+                    <ul>
+                        <li>Clique no botão abaixo "Ver o QrCode de pagamento";</li>
+                        <li>Tire um print da tela <small>(botão de ligar e diminuir o volume ao mesmo tempo)</small>
+                        </li>
+                        <li>Abra seu App do Banco, e abra a opção pagar com Pix por QrCode;</li>
+                        <li>Selecione a opção "abrir da galeria", ou equivalente;</li>
+                        <li>Anote o código da descrição, e escreva-o na caixa que aparece abaixo do QrCode;</li>
+                        <li>Pronto! Os Jovens Peregrinos te agradecem!!</li>
+                    </ul>
+                </ul>
+            </ul>
+            <!-- Button trigger modal -->
+            <button type="button" class="btn btn-success" data-toggle="modal" data-target="#exampleModal">
+                Ver o QrCode de Pagamento
+            </button>
+        </div>
+    </div>
+
+    <!-- Modal -->
+    <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">QrCode</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+
+                <div class="modal-body">
+                </div>
+                <div class="modal-footer">
+                    <input type="submit" class="btn btn-primary" onclick="getQrCodePattern()">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                </div>
+
             </div>
         </div>
     </div>
@@ -98,14 +153,113 @@
 
     function getValue() {
         selection = document.getElementById('value')
-        console.log(selection.value)
         if (selection.value == 'donation') {
             textArea = document.getElementById('textArea')
-            textArea.style.visibility='visible'
+            textArea.style.visibility = 'visible'
         } else {
             textArea = document.getElementById('textArea')
-            textArea.style.visibility='hidden'
+            textArea.style.visibility = 'hidden'
         }
     }
 
+    function getQrCodePattern() {
+
+        //pega o código QrCode
+        qrCode = document.getElementById('qrCode').innerText
+
+        //pega o conteúdo digitado com a frase
+        pass = document.getElementById('pass').value
+
+        //procura onde está a descrição dentro do código QrCode
+        searchPhrase = qrCode.match(/02[0-9][0-9][A-z áàâãéèêíïóôõöúçñÁÀÂÃÉÈÊÍÏÓÔÕÖÚÇÑ,.;:-]+[.?:-]?/gm)[0]
+
+        //retira o código do Pix que indica onde está a descrição
+        getPhrase = searchPhrase.match(/[A-z áàâãéèêíïóôõöúçñÁÀÂÃÉÈÊÍÏÓÔÕÖÚÇÑ,.;:-]+[.?:-]?/gm)[0]
+
+        console.log(getPhrase)
+        if (pass != getPhrase) {
+
+            window.alert('ops, chave senha errada!!')
+            event.preventDefault();
+        } else {
+
+            data = {
+                "value": selection,
+                "method": 'post'
+            }
+
+            complementUserData = JSON.stringify(data)
+
+
+            $.ajax({
+                type: "POST",
+                url: 'http://localhost:8000/payment/confirmation',
+                data: { date: complementUserData },
+                success: function (response) {
+                    console.log(response)
+                    window.location.replace(response)
+                },
+                error: function (response) {
+                    window.alert('Perdão, tivemos um Erro... Recarregue a página e tente novamente')
+                }
+            });
+        }
+
+    }
+
+    function showQrCode() {
+        selection = document.getElementById('value').value
+
+        if (selection == 'donation') {
+            selection = document.getElementById('valueDonation').value
+            if (parseFloat(selection) < 25) {
+                window.alert('o valor minimo é R$25.00')
+                return
+            }
+        } else {
+            selection = selection + '.00'
+        }
+
+        $.ajax({
+            type: "POST",
+            url: 'http://localhost:8000/payment',
+            data: selection,
+            success: function (response) {
+                console.log(response)
+                $('#text').hide()
+                $('#payment').show()
+                $('.modal-body').append('<h5>Valor: R$' + selection + '</h5>')
+                $('.modal-body').append(response)
+                $('.modal-body').append('<h6>Escreva abaixo o Código-Senha da descrição do QrCode</h6>')
+                $('.modal-body').append('<input type="text" class="form-control" id="pass">')
+                $('.modal-body').append('<p><small>se o código não for igual o da descrição, por mais que o pagamento seja efetuado, não será validado!</small></p>')
+
+            },
+            error: function (response) {
+                window.alert('Perdão, tivemos um Erro... Recarregue a página e tente novamente')
+            }
+        });
+    }
+
+    String.prototype.reverse = function () {
+        return this.split('').reverse().join('');
+    };
+
+    function mascaraMoeda(campo, evento) {
+        var tecla = (!evento) ? window.event.keyCode : evento.which;
+        var valor = campo.value.replace(/[^\d]+/gi, '').reverse();
+        var resultado = "";
+        var mascara = "#####.##".reverse();
+        for (var x = 0, y = 0; x < mascara.length && y < valor.length;) {
+            if (mascara.charAt(x) != '#') {
+                resultado += mascara.charAt(x);
+                x++;
+            } else {
+                resultado += valor.charAt(y);
+                y++;
+                x++;
+            }
+        }
+        campo.value = resultado.reverse();
+    }
 </script>

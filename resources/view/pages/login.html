@@ -16,6 +16,7 @@
     <!-- biblioteca do jquery -->
     <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
 
+
     <script>
 
         /* quando a pagina for iniciada */
@@ -39,8 +40,6 @@
         function handleCredentialResponse(response) {
             const data = jwt_decode(response.credential)
             console.log(data)
-
-            var sub = data.sub
 
             $.ajax({
                 type: "POST",

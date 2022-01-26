@@ -3,7 +3,6 @@
 require_once __DIR__ . "/../helpers/dbConection.php";
 
 use FFI\Exception;
-use PDO;
 
 
 putenv("DB_NAME=jperegrinos");
@@ -132,7 +131,8 @@ class ActionsUsers
         if ($case == 'check') {
 
             $obUser = $this->get($id);
-            $lastPayment = $obUser['date'];
+
+            $lastPayment = str_replace('/', '-', $obUser['date']);
             $this->date = $obUser['date'];
 
             //se o usuário pagou a mais de um mês retorna verdadeiro, se não, retorna falso

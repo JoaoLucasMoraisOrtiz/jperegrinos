@@ -6,7 +6,7 @@
 namespace App\Controller\Pages;
 
 use \App\Utils\View;
-use \App\Model\Entity\Organization;
+use \App\Utils;
 
 class Login extends Pages{
 

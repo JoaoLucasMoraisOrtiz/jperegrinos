@@ -3,7 +3,6 @@
 require_once __DIR__ . "/../helpers/dbConection.php";
 
 use FFI\Exception;
-use PDO;
 
 /* putenv("DB_NAME=jperegrinos");
 putenv("DB_HOST=localhost:3306");
