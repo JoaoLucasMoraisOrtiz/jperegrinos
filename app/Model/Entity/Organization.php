@@ -4,11 +4,15 @@
 
 namespace App\Model\Entity;
 
+use ActionsEvents;
 use ActionsPosts;
 use ActionsUsers;
+use ActionsClients;
 
 require_once __DIR__ . '/../API/controller/ActionsPost.php';
 require_once __DIR__ . '/../API/controller/ActionsUsers.php';
+require_once __DIR__ . '/../API/controller/ActionsEvents.php';
+require_once __DIR__ . '/../API/controller/ActionsClients.php';
 
 class Organization
 {
@@ -39,6 +43,14 @@ class Organization
         if (strtolower($table) == 'users') {
 
             $this->api = new ActionsUsers;
+        }
+
+        if(strtolower($table) == 'events') {
+            $this->api = new ActionsEvents;
+        }
+
+        if(strtolower($table) == 'clients') {
+            $this->api = new ActionsClients;
         }
     }
 

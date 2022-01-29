@@ -79,56 +79,61 @@ class Payload
      * Método responsável por definir o valor da descrição do pagamento
      * @param string $description
      */
-    public function setDescription()
+    public function setDescription($description)
     {
 
-        $phrase = array(
-            "A alegria evita mil males e prolonga a vida.",
-            "A alegria de fazer o bem é a única felicidade verdadeira.",
-            "A alegria não está nas coisas, está em nós.",
-            "Para quem ama, qualquer sacrifício é alegria.",
-            "Toda a alegria vem do amor, e todo o amor inclui o sofrimento.",
-            "A alegria é a pedra filosofal que tudo converte em ouro.",
-            "A alegria não está nas coisas, mas em nós.",
-            "A alegria compartilhada é uma alegria dobrada",
-            "O amor não se vê com os olhos mas com o coração.",
-            "A medida do amor é amar sem medida.",
-            "Não basta fazer coisas boas - é preciso fazê-las bem.",
-            "A humildade é o primeiro degrau para a sabedoria",
-            "As coisas que amamos nos dizem o que somos.",
-            "Quem ama, faz sempre comunidade; não fica nunca sozinho",
-            "Humildade é a verdade",
-            "São felizes as vidas que se consumirem no serviço da Igreja",
-            "Aquilo que o amor faz, o medo jamais poderá realizar.",
-            "A amizade cuja fonte é Deus, nunca se esgota.",
-            "Não busco compreender para crer, mas creio para compreender.",
-            "No crepúsculo da vida, seremos julgados pelo amor.",
-            "Sofrer por Deus é melhor que fazer milagres.",
-            "Não se desanime se você não consegue fazer tudo como gostaria.",
-            "A alma cristã deve fugir dos aplausos dos homens.",
-            "Aspiremos a felicidade que nos foi preparada por Deus.",
-            "Deus é nosso Pai. O que se pode temer tendo um Pai como este?",
-            "Peça a Deus para sempre sentir o perfume de seus ensinamentos.",
-            "Trabalhar com amor é orar com as mãos.",
-            "Fale pouco de você e menos ainda dos outros.",
-            "Trabalha em algo, para que o diabo te encontre sempre ocupado.",
-            "A boca fala do que está cheio o coração.",
-            "Amai-vos uns aos outros, como eu vos amei."
-        );
-
-        while (true) {
-            // ordenar o array randomicamente
-            srand((float)microtime() * 1000000);
-            shuffle($phrase);
-            /* $this->description = $frases[0]; */
-
-            if (mb_strlen($phrase[0], 'UTF-8') > 62) {
-                continue;
-            }else{
-                $this->description = $phrase[0];
-                return $this;
-                break;
+        if($description == 0){
+            $phrase = array(
+                "A alegria evita mil males e prolonga a vida.",
+                "A alegria de fazer o bem é a única felicidade verdadeira.",
+                "A alegria não está nas coisas, está em nós.",
+                "Para quem ama, qualquer sacrifício é alegria.",
+                "Toda a alegria vem do amor, e todo o amor inclui o sofrimento.",
+                "A alegria é a pedra filosofal que tudo converte em ouro.",
+                "A alegria não está nas coisas, mas em nós.",
+                "A alegria compartilhada é uma alegria dobrada",
+                "O amor não se vê com os olhos mas com o coração.",
+                "A medida do amor é amar sem medida.",
+                "Não basta fazer coisas boas - é preciso fazê-las bem.",
+                "A humildade é o primeiro degrau para a sabedoria",
+                "As coisas que amamos nos dizem o que somos.",
+                "Quem ama, faz sempre comunidade; não fica nunca sozinho",
+                "Humildade é a verdade",
+                "São felizes as vidas que se consumirem no serviço da Igreja",
+                "Aquilo que o amor faz, o medo jamais poderá realizar.",
+                "A amizade cuja fonte é Deus, nunca se esgota.",
+                "Não busco compreender para crer, mas creio para compreender.",
+                "No crepúsculo da vida, seremos julgados pelo amor.",
+                "Sofrer por Deus é melhor que fazer milagres.",
+                "Não se desanime se você não consegue fazer tudo como gostaria.",
+                "A alma cristã deve fugir dos aplausos dos homens.",
+                "Aspiremos a felicidade que nos foi preparada por Deus.",
+                "Deus é nosso Pai. O que se pode temer tendo um Pai como este?",
+                "Peça a Deus para sempre sentir o perfume de seus ensinamentos.",
+                "Trabalhar com amor é orar com as mãos.",
+                "Fale pouco de você e menos ainda dos outros.",
+                "Trabalha em algo, para que o diabo te encontre sempre ocupado.",
+                "A boca fala do que está cheio o coração.",
+                "Amai-vos uns aos outros, como eu vos amei."
+            );
+    
+            while (true) {
+                // ordenar o array randomicamente
+                srand((float)microtime() * 1000000);
+                shuffle($phrase);
+                /* $this->description = $frases[0]; */
+    
+                if (mb_strlen($phrase[0], 'UTF-8') > 62) {
+                    continue;
+                }else{
+                    $this->description = $phrase[0];
+                    return $this;
+                    break;
+                }
             }
+        }else{
+            $this->description = $description;
+            return $this;
         }
     }
 

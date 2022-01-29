@@ -1,10 +1,8 @@
 <div class="container">
-    <div class="row">
-        <div class="col-12" style="text-align: center; display: flex; justify-content: space-between;">
-            <a href="{{URL}}"><button class="btn btn-primary">HOME</button></a>
-            <a href="{{URL}}/store"><button class="btn btn-primary">STORE</button></a>
-            <a href="{{URL}}/destroy"><button class="btn btn-primary">DESTRUIR SESSÃO</button></a>
-        </div>
+    <div class="col-12" style="text-align: center; display: flex; justify-content: space-between;">
+        <a href="{{URL}}/home"><button class="btn btn-warning">Home</button></a>
+        <a href="{{URL}}/destroy"><button class="btn btn-secondary">Sair</button></a>
+
     </div>
     <hr>
     <div class="row" id="text">
@@ -66,9 +64,9 @@
             </p>
         </div>
         <div class="col-4 bg-light">
-            <div class="card" style="position: fixed;">
+            <div class="card" style="position: static;">
                 <div class="card-title" style="width: 26vw; text-align: center; padding-top: 2vh;">
-                    <h5>Apoie-nos</h5>
+                    <h5 style="color: rgb(204, 0, 0);">Apoie-nos</h5>
                     <hr>
                 </div>
                 <div class="card-body">
@@ -88,6 +86,17 @@
                     </div>
                 </div>
             </div>
+            <br>
+            <div class="card" style="position: static;">
+                <div class="card-title" style="width: 26vw; text-align: center; padding-top: 2vh;">
+                    <h5 style="color: rgb(204, 0, 0);">Eventos do Mês</h5>
+                    <hr>
+                </div>
+                <div class="card-body">
+                    {{monthEvent}}
+                </div>
+            </div>
+
         </div>
     </div>
 
@@ -131,9 +140,6 @@
             <div class="modal-content">
                 <div class="modal-header">
                     <h5 class="modal-title" id="exampleModalLabel">QrCode</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
                 </div>
 
                 <div class="modal-body">
@@ -176,7 +182,6 @@
         //retira o código do Pix que indica onde está a descrição
         getPhrase = searchPhrase.match(/[A-z áàâãéèêíïóôõöúçñÁÀÂÃÉÈÊÍÏÓÔÕÖÚÇÑ,.;:-]+[.?:-]?/gm)[0]
 
-        console.log(getPhrase)
         if (pass != getPhrase) {
 
             window.alert('ops, chave senha errada!!')
@@ -196,7 +201,6 @@
                 url: 'http://localhost:8000/payment/confirmation',
                 data: { date: complementUserData },
                 success: function (response) {
-                    console.log(response)
                     window.location.replace(response)
                 },
                 error: function (response) {
@@ -207,12 +211,52 @@
 
     }
 
+    function calcVal(campo, evento) {
+
+        $('#howMany').keyup(function () {
+
+            var text = $(this).val();
+
+            value = document.getElementById('totalValue')
+            value.innerHTML = "R$" + text * document.getElementById('valueEvent').innerText
+            //Aqui dentro você faz o que quer, manda pra um arquivo php com ajax
+            //ou sla, vai depender do que você quer fazer
+
+        })
+    }
+
+    function eventQrCode() {
+        selection = document.getElementById('howMany').value
+        value = document.getElementById('valueEvent').innerText
+        title = document.getElementById('titleEvent').innerText
+
+        if (selection == null || selection == '') {
+            window.alert('Selecione a quantidade!')
+            return
+        }
+
+        $.ajax({
+            type: "POST",
+            url: 'http://localhost:8000/payment',
+            data: { 'value': selection * value, 'description': null, 'title' : title },
+            success: function (response) {
+                console.log(response)
+                $('#qrCodeEvent').empty()
+                $('#qrCodeEvent').append(response)
+                $('#qrCodeEvent').append('<p><small>Guarde o comprovante do Pix, podemos eventualmente requeri-lo</asmall></p>')
+            },
+            error: function (response) {
+                window.alert('Perdão, tivemos um Erro... Recarregue a página e tente novamente')
+            }
+        });
+    }
+
     function showQrCode() {
         selection = document.getElementById('value').value
 
         if (selection == 'donation') {
             selection = document.getElementById('valueDonation').value
-            if (parseFloat(selection) < 25) {
+            if (parseFloat(selection) < 25 || selection == '') {
                 window.alert('o valor minimo é R$25.00')
                 return
             }
@@ -223,7 +267,7 @@
         $.ajax({
             type: "POST",
             url: 'http://localhost:8000/payment',
-            data: selection,
+            data: { 'value': selection },
             success: function (response) {
                 console.log(response)
                 $('#text').hide()

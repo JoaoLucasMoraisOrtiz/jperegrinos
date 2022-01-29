@@ -20,12 +20,12 @@ class GenerateQrCode
      * @param string $txid
      * @return base64_encode image
      */
-    public static function createQrCode($pixKey, $merchantName, $merchantCity, $amount, $txid)
+    public static function createQrCode($pixKey, $merchantName, $merchantCity, $amount, $txid, $description=0)
     {
 
         //instancia a classe Payload
         $obPayload = (new Payload)->setPixKey($pixKey)
-            ->setDescription()
+            ->setDescription($description)
             ->setMerchantName($merchantName)
             ->setMerchantCity($merchantCity)
             ->setAmount($amount)

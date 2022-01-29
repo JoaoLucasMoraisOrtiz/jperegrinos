@@ -1,0 +1,556 @@
+<div class="container">
+    <div class="row">
+        <div class="col-8">
+            {{posts}}
+
+        </div>
+        <div class="col-4">
+            <header style="display: block; position: static; margin-bottom: 2vh;">
+                <button class="btn btn-success" onclick="$('#createModal').modal('show')"> Criar um novo post </button>
+                <br>
+                <br>
+                <button class="btn btn-warning" onclick="$('#createModalEvent').modal('show')"> Criar um novo evento </button>
+
+                <br>
+                <br>
+                <button class="btn btn-warning" onclick="$('#clientsModal').modal('show')"> Ver Clientes </button>
+            </header>
+
+            <div>{{events}}</div>
+
+        </div>
+    </div>
+
+    <!-- Modal Login -->
+    <div class="modal fade" id="loginModal">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content" style="text-align: center;">
+                <div class="modal-header">
+                    <h5 class="modal-title">Administração</h5>
+                </div>
+                <div class="modal-body">
+                    <input type="text" class="form-control " name="user" id="user" placeholder="Usuário">
+                    <br>
+                    <input type="password" class="form-control " name="pass" id="pass" placeholder="Senha">
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-success" onclick="getLogin()">Entrar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal Editar -->
+    <div class="modal fade" id="editModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel" name="title">Editar</h5>
+                </div>
+                <div class="modal-body">
+                    <p hidden id='id'></p>
+                    <p>Titulo:</p>
+                    <input class="form-control" type="text" name="name" id="name">
+                    <br>
+                    <p>Tipo de Post</p>
+                    <input class="form-control" type="text" name="type" id="type">
+                    <br>
+                    <p>Imágem:</p>
+                    <input class="form-control" type="text" name="img" id="img">
+                    <br>
+                    <p>Conteúdo</p>
+                    <textarea name="content" id="content" cols="15" rows="5" class='form-control'></textarea>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary"
+                        onclick="$('#editModal').modal('hide')">Cancelar</button>
+                    <button type="button" class="btn btn-warning" onclick="update()">Save changes</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal Criar -->
+    <div class="modal fade" id="createModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" name="title">Novo Post</h5>
+                </div>
+                <div class="modal-body">
+                    <p>Titulo:</p>
+                    <input class="form-control" type="text" name="newName" id="newName">
+                    <br>
+                    <p>Tipo de Post</p>
+                    <input class="form-control" type="text" name="newType" id="newType">
+                    <br>
+                    <p>Imágem:</p>
+                    <input class="form-control" type="text" name="newImg" id="newImg">
+                    <br>
+                    <p>Conteúdo</p>
+                    <textarea name="newContent" id="newContent" cols="15" rows="5" class='form-control'></textarea>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary"
+                        onclick="$('#createModal').modal('hide')">Cancelar</button>
+                    <button type="button" class="btn btn-success" onclick="create()">Save changes</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal Criar Evento -->
+    <div class="modal fade" id="createModalEvent" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" name="title">Novo Evento</h5>
+                </div>
+                <div class="modal-body">
+                    <p>Titulo:</p>
+                    <input class="form-control" type="text" name="eventName" id="eventName">
+                    <br>
+                    <p>valor</p>
+                    <input class="form-control" type="text" name="eventValue" id="eventValue">
+                    <br>
+                    <p>Conteúdo</p>
+                    <textarea name="eventContent" id="eventContent" cols="15" rows="5" class='form-control'></textarea>
+                    <br>
+                    <div style="display: flex; justify-content: space-between;">
+                        <button class="btn btn-primary" onclick="add('inputNumber')">Caixa de Número</button>
+                        <button class="btn btn-primary" onclick="add('inputText')">Caixa de Texto</button>
+                        <button class="btn btn-primary" onclick="add('breakLine')">quebra de linha</button>
+                    </div>
+                    <br>
+                    <div style="display: flex; justify-content: space-between;">
+                        <button class="btn btn-primary" onclick="add('showValue')">Exibir Valor total</button>
+                        <button class="btn btn-primary" onclick="add('bold')">negrito</button>
+                        <button class="btn btn-primary" onclick="add('small')">pequeno</button>
+                    </div>
+
+                </div>
+                <div id='footerEvent'></div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary"
+                        onclick="$('#createModalEvent').modal('hide')">Cancelar</button>
+                    <button type="button" class="btn btn-success" onclick="eventCreate()">Criar</button>
+                    <button type="button" class="btn btn-warning" onclick="showEvent()">visualizar</button>
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal Editar Evento -->
+    <div class="modal fade" id="editModalEvent" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" name="title">Editar Evento</h5>
+                </div>
+                <div class="modal-body">
+                    <p>Titulo:</p>
+                    <div id="eventId" name="eventId" hidden></div>
+                    <input class="form-control" type="text" name="editEventName" id="editEventName">
+                    <br>
+                    <p>valor</p>
+                    <input class="form-control" type="text" name="editEventValue" id="editEventValue">
+                    <br>
+                    <p>Conteúdo</p>
+                    <textarea name="editEventContent" id="editEventContent" cols="15" rows="5"
+                        class='form-control'></textarea>
+                    <br>
+                    <div style="display: flex; justify-content: space-between;">
+                        <button class="btn btn-primary" onclick="add('inputNumber', 'edit')">Caixa de Número</button>
+                        <button class="btn btn-primary" onclick="add('inputText', 'edit')">Caixa de Texto</button>
+                        <button class="btn btn-primary" onclick="add('breakLine', 'edit')">quebra de linha</button>
+                    </div>
+                    <br>
+                    <div style="display: flex; justify-content: space-between;">
+                        <button class="btn btn-primary" onclick="add('showValue', 'edit')">Exibir Valor total</button>
+                        <button class="btn btn-primary" onclick="add('bold', 'edit')">negrito</button>
+                        <button class="btn btn-primary" onclick="add('small', 'edit')">pequeno</button>
+                    </div>
+
+                </div>
+                <div id='editFooterEvent'></div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary"
+                        onclick="$('#editModalEvent').modal('hide')">Cancelar</button>
+                    <button type="button" class="btn btn-success" onclick="updateEvent()">Editar</button>
+                    <button type="button" class="btn btn-warning" onclick="showEvent('edit')">visualizar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Confirmation Modal -->
+    <div class="modal fade bd-example-modal-sm" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel"
+        aria-hidden="true" id="confirmation">
+        <div class="modal-dialog modal-sm">
+            <div class="modal-content" style="padding: 1vh 1vw 1vh 1vw; text-align: center;">
+                <p><b>deseja realmente apagar este post?</b></p>
+                <div class="row" style="padding: 1vh 0vw 1vh 25%;">
+                    <div class="col-8" style="margin-bottom: 2vh;">
+                        <button class="btn btn-danger" id='positive' style="width: 100%;">Sim</button>
+                    </div>
+                    <div class="col-8">
+                        <button class="btn btn-secondary" style="width: 100%;"
+                            onclick="$('#confirmation').modal('hide')">Cancelar</button>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal Clientes -->
+    <div class="modal" tabindex="-1" role="dialog" id="clientsModal">
+        <div class="modal-dialog" role="document">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title">Modal title</h5>
+            </div>
+            <div class="modal-body">
+              <p>Modal body text goes here.</p>
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-danger">Fechar</button>
+            </div>
+          </div>
+        </div>
+      </div>
+</div>
+
+<script type="text/javascript">
+
+    function change(edit = '') {
+        masterKeys = {
+            inputNumber: '<input type="number" name="howMany" id="howMany" class="form-control" onKeyUp="calcVal(this, event)">',
+            inputText: '<input type="text" name="howMany" id="howMany" class="form-control" onKeyUp="calcVal(this, event)">',
+            breakLine: '<br>',
+            showValue: '<div id="totalValue">',
+            bold: '<b>',
+            small: '<small>',
+            endinputNumber: '',
+            endinputText: '',
+            endbreakLine: '',
+            endshowValue: '</div>',
+            endbold: '</b>',
+            endsmall: '</small>'
+        };
+
+        text = ''
+        if (edit == '') {
+            text = document.querySelector('[name=eventContent]').value;
+        }
+
+        if (edit == 'edit') {
+            text = document.querySelector('[name=editEventContent]').value;
+        }
+
+        reg = /\[[\/a-zA-Z]+\]/gm
+        fond = text.match(reg)
+
+        for (const key in fond) {
+            selectedKey = fond[key]
+            selectedKey = selectedKey.replace('[', '')
+            selectedKey = selectedKey.replace(']', '')
+
+            text = text.replace(fond[key], masterKeys[selectedKey])
+
+        }
+        return text
+    }
+
+    function showEvent(edit = '') {
+
+        if (edit == '') {
+            completeText = change()
+            $('#footerEvent').empty()
+            $('#footerEvent').append('<hr>' + completeText)
+        }
+        if (edit == 'edit') {
+            completeText = change('edit')
+            $('#editFooterEvent').empty()
+            $('#editFooterEvent').append('<hr>' + completeText)
+        }
+
+    }
+
+    function eventCreate() {
+
+        title = document.getElementById('eventName').value
+
+        value = document.getElementById('eventValue').value
+
+        desc = document.getElementById('eventContent').value
+
+        if (title == '' || value == '' || desc == '') {
+            window.alert('Preencha todos os campos')
+            return
+        }
+
+        completeText = change()
+
+        data = { 'name': title, 'value': value, 'description': completeText }
+
+        data = JSON.stringify(data)
+        $.ajax({
+            type: "POST",
+            url: 'http://localhost:8000/admin',
+            data: { "createEvent": data },
+            success: function (response) {
+                window.location.reload()
+            },
+            error: function (response) {
+                window.alert('Perdão, tivemos um Erro... Recarregue a página e tente novamente')
+            }
+        });
+
+
+
+    }
+
+    function add(tag, edit = '') {
+
+        if (edit == '') {
+            document.querySelector('[name=eventContent]').value += '[' + tag + ']  [end' + tag + ']'
+        }
+        if (edit == 'edit') {
+            document.querySelector('[name=editEventContent]').value += '[' + tag + ']  [end' + tag + ']'
+        }
+
+    }
+
+    function getLogin() {
+        user = document.getElementById('user').value
+        pass = document.getElementById('pass').value
+
+        data = { "user": user, "pass": pass }
+        data = JSON.stringify(data)
+        /* console.log(data) */
+
+
+        $.ajax({
+            type: "POST",
+            url: 'http://localhost:8000/admin',
+            data: { "login": data },
+            success: function (response) {
+                console.log(response)
+                if (response == 'true') {
+
+                    $('#loginModal').modal('hide')
+                } else {
+                    window.alert('Usuário ou Senha errados, tente novamente!!')
+                }
+            },
+            error: function (response) {
+                window.alert('Perdão, tivemos um Erro... Recarregue a página e tente novamente')
+            }
+        });
+
+    }
+
+    function getPost(id) {
+
+        data = id
+
+        $.ajax({
+            type: "POST",
+            url: 'http://localhost:8000/admin',
+            data: { "searchPost": data },
+            success: function (response) {
+                post = JSON.parse(response)
+                $('#editModal').modal("show")
+                document.querySelector('[name=name]').value = post['name']
+                document.querySelector('[name=img]').value = post['image']
+                document.querySelector('[name=type]').value = post['type']
+                document.querySelector('[name=content]').value = post['description']
+                document.getElementById('id').innerHTML = post['id']
+            },
+            error: function (response) {
+                window.alert('Perdão, tivemos um Erro... Recarregue a página e tente novamente')
+            }
+        });
+    }
+
+    function update() {
+
+        $('#editModal').modal("hide")
+        id = document.getElementById('id').innerText
+        name = document.querySelector('[name=name]').value
+        type = document.querySelector('[name=type]').value
+        img = document.querySelector('[name=img]').value
+        content = document.querySelector('[name=content]').value
+
+        data = {
+            'id': id,
+            'name': name,
+            'type': type,
+            'image': img,
+            'description': content
+        }
+
+        data = JSON.stringify(data)
+
+        $.ajax({
+            type: "POST",
+            url: 'http://localhost:8000/admin',
+            data: { "editPost": data },
+            success: function (response) {
+                window.location.reload()
+            },
+            error: function (response) {
+                window.alert('Perdão, tivemos um Erro... Recarregue a página e tente novamente')
+            }
+        });
+
+    }
+
+    function remove(id) {
+
+        data = id
+        $('#confirmation').modal('show')
+
+        btn = document.getElementById('positive')
+        confirmation = btn.addEventListener('click', function () {
+            $.ajax({
+                type: "POST",
+                url: 'http://localhost:8000/admin',
+                data: { "deletePost": data },
+                success: function (response) {
+                    $('#confirmation').modal('hide')
+                    window.location.reload()
+                },
+                error: function (response) {
+                    window.alert('Perdão, tivemos um Erro... Recarregue a página e tente novamente')
+                }
+            });
+        })
+    }
+
+    function create() {
+
+        $('#editModal').modal("hide")
+
+        name = document.querySelector('[name=newName]').value
+        type = document.querySelector('[name=newType]').value
+        img = document.querySelector('[name=newImg]').value
+        content = document.querySelector('[name=newContent]').value
+
+        data = {
+            'name': name,
+            'type': type,
+            'image': img,
+            'description': content
+        }
+
+        data = JSON.stringify(data)
+
+        $.ajax({
+            type: "POST",
+            url: 'http://localhost:8000/admin',
+            data: { "createPost": data },
+            success: function (response) {
+                window.location.reload()
+            },
+            error: function (response) {
+                window.alert('Perdão, tivemos um Erro... Recarregue a página e tente novamente')
+            }
+        });
+
+    }
+
+    function removeEvent(id) {
+
+        data = id
+        $('#confirmation').modal('show')
+
+        btn = document.getElementById('positive')
+        confirmation = btn.addEventListener('click', function () {
+            $.ajax({
+                type: "POST",
+                url: 'http://localhost:8000/admin',
+                data: { "deleteEvent": data },
+                success: function (response) {
+                    $('#confirmation').modal('hide')
+                    window.location.reload()
+                },
+                error: function (response) {
+                    window.alert('Perdão, tivemos um Erro... Recarregue a página e tente novamente')
+                }
+            });
+        })
+    }
+
+    function getEvent(id) {
+
+        data = id
+
+        $.ajax({
+            type: "POST",
+            url: 'http://localhost:8000/admin',
+            data: { "searchEvent": data },
+            success: function (response) {
+                post = JSON.parse(response)
+                $('#editModalEvent').modal("show")
+                console.log(post)
+                document.querySelector('[name=eventId]').innerHTML = post['id']
+                document.querySelector('[name=editEventName]').value = post['name']
+                document.querySelector('[name=editEventValue]').value = post['value']
+                document.querySelector('[name=editEventContent]').value = post['description']
+                document.getElementById('id').innerHTML = post['id']
+            },
+            error: function (response) {
+                window.alert('Perdão, tivemos um Erro... Recarregue a página e tente novamente')
+            }
+        });
+    }
+
+    function updateEvent() {
+
+        $('#editModal').modal("hide")
+        id = document.getElementById('eventId').innerText
+        name = document.querySelector('[name=editEventName]').value
+        value = document.querySelector('[name=editEventValue]').value
+
+        data = {
+            'id': id,
+            'name': name,
+            'value': value,
+            'description': change('edit')
+        }
+
+        data = JSON.stringify(data)
+
+        $.ajax({
+            type: "POST",
+            url: 'http://localhost:8000/admin',
+            data: { "editEvent": data },
+            success: function (response) {
+                window.location.reload()
+            },
+            error: function (response) {
+                window.alert('Perdão, tivemos um Erro... Recarregue a página e tente novamente')
+            }
+        });
+
+    }
+
+    $(window).on('load', function () {
+        $('#loginModal').modal({
+            backdrop: 'static',
+            keyboard: false,
+        })
+
+
+
+        $('#loginModal').modal("{{session}}")
+    });
+
+</script>

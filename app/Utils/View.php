@@ -79,6 +79,7 @@ class View
         */
         $keys = array_keys($vars);
 
+
         /*  
             Mapeamos o array key, e dentro de cada item vamos acrescentar '{{'.$item.'}}', ficando:
             [0] => {{nome_var1}}

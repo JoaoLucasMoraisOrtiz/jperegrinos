@@ -72,12 +72,23 @@ $obRouter->get('/home', [
 
         session_start();
 
-        if (!isset($_SESSION['user'])) {
-            //retorna uma nova Response com HTTPCode = 200 na página de Login
+        $login = $_SESSION['user'] ?? false;
+
+        //se o usuário da sessão for falso
+        if (!$login) {
+            //retorna uma nova Response com HTTPCode = 200 na página de Home
             return new Response(200, Pages\Login::getLogin());
         } else {
-            //retorna uma nova Response com HTTPCode = 200 na página de Home
-            return new Response(200, Pages\Home::getHome());
+
+            $payed = Validation::verifyPayment($_SESSION['user']);
+
+            if ($payed) {
+
+                return new Response(200, Pages\Home::getHome());
+            } else {
+
+                return new Response(200, Pages\Store::getStore());
+            }
         }
     }
 ]);
@@ -88,6 +99,22 @@ $obRouter->get('/destroy', [
         session_start();
         session_destroy();
         return new Response(200, Pages\Login::getLogin());
+    }
+]);
+
+$obRouter->get('/admin', [
+    function () {
+
+        session_start();
+
+        $user = $_SESSION['admin'] ?? '';
+        $pass = $_SESSION['pass'] ?? '';
+
+        if ($user == getenv("ADMIN_USER") && $pass == getenv("ADMIN_PASS")) {
+            return new Response(200, Pages\Admin::getAdmin('hide'));
+        } else {
+            return new Response(200, Pages\Admin::getAdmin('show'));
+        }
     }
 ]);
 
@@ -111,16 +138,28 @@ $obRouter->post('/payment', [
     function () {
         session_start();
 
+        if(isset($_POST['description'])){
+            $description = "nome: " . $_SESSION['name'] . " / Valor: " . $_POST['value'];
+        }else{
+            $description = 0;
+        }
+
         $pixKey = getenv('PIX_KEY');
         $merchantName = getenv('MERCHANT_NAME');
         $merchantCity = getenv('MERCHANT_CITY');
-        $amount = str_replace("_", ".", array_keys($_POST)[0]);
+        $amount = $_POST['value'];
         $txid = 'jp';
 
-        $QrCode = Utils\Pix\GenerateQrCode::createQrCode($pixKey, $merchantName, $merchantCity, $amount, $txid);
-        $img = "<img src='data:image/png;base64," . $QrCode[0] . "'>";
+        $QrCode = Utils\Pix\GenerateQrCode::createQrCode($pixKey, $merchantName, $merchantCity, $amount, $txid, $description);
+        $img = "<img style='width: 100%' src='data:image/png;base64," . $QrCode[0] . "'>";
         print_r($img);
         print_r("<div id='qrCode' hidden>" . $QrCode[1] . "</div>");
+        $ObOrganization = new Organization;
+        $ObOrganization -> db_methods('POST', 'clients', [
+            'name'  => $_SESSION['name'],
+            'value' => $_POST['value'],
+            'event' => $_POST['title']
+        ]);
     }
 ]);
 
@@ -146,6 +185,145 @@ $obRouter->post('/payment/confirmation', [
         ]);
 
         print_r(getenv('URL'));
+        exit;
+    }
+]);
+
+$obRouter->post('/admin', [
+    function () {
+        session_start();
+
+        $data = $_POST;
+
+        if (isset($data['login'])) {
+
+            $data = json_decode($data['login'], true);
+
+            if ($data['user'] == getenv('ADMIN_USER')) {
+                if ($data['pass'] == getenv('ADMIN_PASS')) {
+                    $_SESSION['admin'] = $data['user'];
+                    $_SESSION['pass'] = $data['pass'];
+                    print_r('true');
+                    exit;
+                } else {
+                    print_r('false');
+                    exit;
+                }
+            } else {
+                print_r('false');
+                exit;
+            }
+        }
+
+        if (isset($data['searchPost'])) {
+
+            $data = json_decode($data['searchPost']);
+
+            $ObOrganization = new Organization;
+
+            $post = $ObOrganization->db_methods('GET', 'posts', $data);
+
+            print_r(json_encode($post));
+            exit;
+        }
+
+        if (isset($data['editPost'])) {
+
+            $data = json_decode($data['editPost'], true);
+
+            $ObOrganization = new Organization;
+
+            $post = $ObOrganization->db_methods('PUT', 'posts', $data);
+
+            print_r('ok');
+            exit;
+        }
+
+        if (isset($data['deletePost'])) {
+
+            $data = json_decode($data['deletePost'], true);
+
+            $ObOrganization = new Organization;
+
+            $post = $ObOrganization->db_methods('DELETE', 'posts', $data);
+
+            print_r($data);
+            exit;
+        }
+
+        if (isset($data['createPost'])) {
+            $data = json_decode($data['createPost'], true);
+
+            $ObOrganization = new Organization;
+
+            $post = $ObOrganization->db_methods('POST', 'posts', $data);
+
+            print_r('ok');
+            exit;
+        }
+
+        if (isset($data['createEvent'])) {
+    
+            $data = json_decode($data['createEvent'], true);
+
+            $ObOrganization = new Organization;
+
+            $post = $ObOrganization->db_methods('POST', 'events', $data);
+
+            print_r('ok');
+            exit;
+        }
+
+        if (isset($data['deleteEvent'])) {
+
+            $data = json_decode($data['deleteEvent'], true);
+
+            $ObOrganization = new Organization;
+
+            $post = $ObOrganization->db_methods('DELETE', 'events', $data);
+
+            print_r($data);
+            exit;
+        }
+
+        if (isset($data['searchEvent'])) {
+
+            $data = json_decode($data['searchEvent']);
+
+            $ObOrganization = new Organization;
+
+            $post = $ObOrganization->db_methods('GET', 'events', $data);
+
+            print_r(json_encode($post));
+            exit;
+        }
+
+        if (isset($data['editEvent'])) {
+
+            $data = json_decode($data['editEvent'], true);
+
+            $ObOrganization = new Organization;
+
+            $post = $ObOrganization->db_methods('PUT', 'events', $data);
+
+            print_r('ok');
+            exit;
+        }
+    }
+]);
+
+$obRouter->post('/home', [
+    function () {
+
+        $data = $_POST;
+
+        $data = json_decode($data['searchPost']);
+
+        $ObOrganization = new Organization;
+
+        $post = $ObOrganization->db_methods('GET', 'posts', $data);
+
+        print_r($post);
         exit;
     }
 ]);
