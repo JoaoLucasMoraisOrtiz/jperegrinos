@@ -66,7 +66,7 @@
         <div class="col-4 bg-light">
             <div class="card" style="position: static;">
                 <div class="card-title" style="width: 26vw; text-align: center; padding-top: 2vh;">
-                    <h5 style="color: rgb(204, 0, 0);">Apoie-nos</h5>
+                    <h5 style="color: rgb(204, 0, 0);">Apadrinhar</h5>
                     <hr>
                 </div>
                 <div class="card-body">
@@ -145,8 +145,8 @@
                 <div class="modal-body">
                 </div>
                 <div class="modal-footer">
-                    <input type="submit" class="btn btn-primary" onclick="getQrCodePattern()">
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary" onclick="getQrCodePattern()"> Verificar </button>
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal"> Fechar </button>
                 </div>
 
             </div>
@@ -225,7 +225,7 @@
         })
     }
 
-    function eventQrCode() {
+    function eventQrCode(id) {
         selection = document.getElementById('howMany').value
         value = document.getElementById('valueEvent').innerText
         title = document.getElementById('titleEvent').innerText
@@ -241,9 +241,10 @@
             data: { 'value': selection * value, 'description': null, 'title' : title },
             success: function (response) {
                 console.log(response)
-                $('#qrCodeEvent').empty()
-                $('#qrCodeEvent').append(response)
-                $('#qrCodeEvent').append('<p><small>Guarde o comprovante do Pix, podemos eventualmente requeri-lo</asmall></p>')
+                local = '#qrCodeEvent'+id
+                $('#qrCodeEvent'+id).empty()
+                $('#qrCodeEvent'+id).append(response)
+                $('#qrCodeEvent'+id).append('<p><small>Guarde o comprovante do Pix, podemos eventualmente requeri-lo</asmall></p>')
             },
             error: function (response) {
                 window.alert('Perdão, tivemos um Erro... Recarregue a página e tente novamente')

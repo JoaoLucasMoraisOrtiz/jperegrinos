@@ -280,8 +280,8 @@ $obRouter->post('/admin', [
 
             $ObOrganization = new Organization;
 
-            $post = $ObOrganization->db_methods('DELETE', 'events', $data);
-
+            $ObOrganization->db_methods('DELETE', 'events', $data);
+            
             print_r($data);
             exit;
         }
@@ -307,6 +307,30 @@ $obRouter->post('/admin', [
             $post = $ObOrganization->db_methods('PUT', 'events', $data);
 
             print_r('ok');
+            exit;
+        }
+
+        if (isset($data['deleteClient'])) {
+
+            $data = json_decode($data['deleteClient'], true);
+
+            $ObOrganization = new Organization;
+
+            $post = $ObOrganization->db_methods('DELETE', 'clients', $data);
+
+            print_r('ok');
+            exit;
+        }
+
+        if (isset($data['searchClients'])) {
+
+            $data = json_decode($data['searchClients']);
+
+            $obAdministrator = new Pages\Admin;
+
+            $post = $obAdministrator->getClients($data);
+
+            print_r(json_encode($post));
             exit;
         }
     }

@@ -4,12 +4,6 @@ require_once __DIR__ . "/../helpers/dbConection.php";
 
 use FFI\Exception;
 
-/* putenv("DB_NAME=jperegrinos");
-putenv("DB_HOST=localhost:3306");
-putenv("DB_USER=joao");
-putenv("DB_PASS=");
-putenv("DB_POSTS_TABLE=posts"); */
-
 
 class ActionsPosts
 {

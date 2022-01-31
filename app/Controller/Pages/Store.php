@@ -41,10 +41,10 @@ class Store extends Pages
                     <br>
 
                     <div id="payEvent' . $id . '" style="text-align: center;">
-                        <button class="btn btn-success" onclick="eventQrCode()">Comprar</button>
+                        <button class="btn btn-success" onclick="eventQrCode('.$id.')">Comprar</button>
                     </div>
                 </div>
-                <div class="card-footer" id="qrCodeEvent"></div>
+                <div class="card-footer" id="qrCodeEvent'.$id.'"></div>
             </div>';
 
             $str .= $htmlPost;

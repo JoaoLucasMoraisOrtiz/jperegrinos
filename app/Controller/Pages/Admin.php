@@ -70,6 +70,97 @@ class Admin extends Pages
         return $str;
     }
 
+    public static function getClients($require = '')
+    {
+        $obOrganization = new Organization;
+        $posts = $obOrganization->db_methods('GET', 'clients');
+
+        $length = count($posts);
+        $str = '';
+
+
+
+        if ($require == '') {
+            for ($i = 0; $i <= $length - 1; $i++) {
+
+                $name = $posts[$i]['name'];
+                $event = $posts[$i]['event'];
+                $value = $posts[$i]['value'];
+                $id = $posts[$i]['id'];
+
+                $htmlPost = '
+                <div class="card" style="position: static; box-shadow: 0.5px 1px 15px black; margin-bottom: 2vh">
+                    <div class="card-title" style=" text-align: center; padding-top: 1vh;">
+                        <h5 class="text-danger" id="nameClient">' . $name . '</h5>
+                        <div class="nameClientEvent">' . $event . '</div>
+                        <p>' . $value . '</p>
+                    </div>
+                    <div class="card-footer">
+                        <button class="btn btn-danger" onclick="deleteClient(' . $id . ')">Deletar</button>
+                    </div>
+                </div>';
+
+                $str .= $htmlPost;
+            }
+        } else {
+            for ($i = 0; $i <= $length - 1; $i++) {
+                $name = $posts[$i]['name'];
+                $event = $posts[$i]['event'];
+                $value = $posts[$i]['value'];
+                $id = $posts[$i]['id'];
+
+                if ($require == $event) {
+                    $htmlPost = '
+                        <div class="card" style="position: static; box-shadow: 0.5px 1px 15px black; margin-bottom: 2vh">
+                            <div class="card-title" style=" text-align: center; padding-top: 1vh;">
+                                <h5 class="text-danger" id="nameClient">' . $name . '</h5>
+                                <div class="nameClientEvent">' . $event . '</div>
+                                <p>' . $value . '</p>
+                            </div>
+                            <div class="card-footer">
+                                <button class="btn btn-danger" onclick="deleteClient(' . $id . ')">Deletar</button>
+                            </div>
+                        </div>';
+                }
+
+                $str .= $htmlPost;
+            }
+        }
+        return $str;
+    }
+
+    private static function getClientEvent()
+    {
+        $obOrganization = new Organization;
+        $posts = $obOrganization->db_methods('GET', 'clients');
+
+        $length = count($posts);
+        $str = '';
+        $eventKey = [];
+
+        for ($i = 0; $i <= $length - 1; $i++) {
+
+            $event = $posts[$i]['event'];
+
+            array_push($eventKey, $event);
+        }
+
+        $eventKey = array_unique($eventKey);
+        $length = count($eventKey);
+
+        for ($i = 0; $i <= $length - 1; $i++) {
+
+            $event = $eventKey[$i];
+
+            $htmlPost = '
+            <option value="' . $event . '">' . $event . '</option>';
+
+            $str .= $htmlPost;
+        }
+        return $str;
+    }
+
+
     /**
      * Método responsável por retornar o conteúdo (view) da nossa Home;
      * @return string;
@@ -84,7 +175,9 @@ class Admin extends Pages
         $pageContent =  View::render('pages/admin', [
             'posts' => $args,
             'session' => $session,
-            'events' => self::getEvent()
+            'events' => self::getEvent(),
+            'optionsEvents' => self::getClientEvent(),
+            'clients' => self::getClients()
         ]);
 
         return parent::getPages('Admin', '', $pageContent);

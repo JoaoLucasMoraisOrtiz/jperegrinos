@@ -45,11 +45,11 @@ class Organization
             $this->api = new ActionsUsers;
         }
 
-        if(strtolower($table) == 'events') {
+        if (strtolower($table) == 'events') {
             $this->api = new ActionsEvents;
         }
 
-        if(strtolower($table) == 'clients') {
+        if (strtolower($table) == 'clients') {
             $this->api = new ActionsClients;
         }
     }
@@ -67,6 +67,7 @@ class Organization
         if (strtoupper($method) == "GET") {
 
             $this->init($table);
+            
             return $this->api->get($params);
         }
 

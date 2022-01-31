@@ -4,12 +4,6 @@ require_once __DIR__ . "/../helpers/dbConection.php";
 
 use FFI\Exception;
 
-/* putenv("DB_NAME=jperegrinos");
-putenv("DB_HOST=localhost:3306");
-putenv("DB_USER=joao");
-putenv("DB_PASS=");
-putenv("DB_POSTS_TABLE=posts"); */
-
 
 class ActionsClients
 {
@@ -167,9 +161,10 @@ class ActionsClients
             }
         } else if ($id != 0) {
 
+
             //prepara uma string para ser executada posteriormente com o prepare;
             //:_mark - é uma forma de se proteger, para ninguem colocar um drop database e acabar com o banco
-            $statement = $con->prepare("SELECT * FROM client WHERE id = :id");
+            $statement = $con->prepare("SELECT * FROM client WHERE event =:id");
             $statement->bindParam(":id", $id, PDO::PARAM_INT);
             try {
                 //tenta executar a string que estava sendo preparada, ou seja, envia para o DB os dados.
@@ -228,7 +223,7 @@ class ActionsClients
 
             //tenta executar a string que estava sendo preparada, ou seja, envia para o DB os dados.
             if ($statement->execute()) {
-                
+
                 //pega o ID do usuário que foi enviado para o DB;
                 $this->id = $con->lastInsertId();
                 //exibe o usuário inserido na DB;
@@ -319,10 +314,9 @@ class ActionsClients
             //em caso de erro exibe a window.allert()
             echo `window.allert('Erro ao conectar com o banco de dados! <br> {$e->getMessage()}')`;
         }
-
         //prepara uma string para ser executada posteriormente com o prepare;
         //:_mark - é uma forma de se proteger, para ninguem colocar um drop database e acabar com o banco
-        $statement = $con->prepare("DELETE FROM client WHERE event = :id");
+        $statement = $con->prepare('DELETE FROM client WHERE id=:id');
 
         //substitui o :_mark por um valor, e expecifica o tipo do valor (explicitado por segurança);
         $statement->bindValue(":id", $id, PDO::PARAM_INT);
